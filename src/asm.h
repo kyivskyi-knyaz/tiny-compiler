@@ -4,6 +4,6 @@
 #include "libtinycompiler_export.h"
 #include "defs.h"
 
-void LIBTINYCOMPILER_EXPORT print_asm(byte *code);
+void LIBTINYCOMPILER_EXPORT print_asm(int *code);
 
 #endif

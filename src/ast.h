@@ -7,14 +7,13 @@
 #define SET_TYPE 1
 #define ADD_TYPE 2
 #define SUB_TYPE 3
-#define MUL_TYPE 4 
+#define MUL_TYPE 4
 #define DIV_TYPE 5
-#define VAR_TYPE 6
+#define VAR_TYPE 6 // variable type
 #define NUM_TYPE 7
 #define RET_TYPE 8
-
-struct Node
-{
+#define CMP_TYPE 9
+LIBTINYCOMPILER_STRUCT_EXTENSION(Node) {
     int type;
     int val;
     struct Node *op1;

@@ -6,6 +6,6 @@
 
 #define POP_BOTH arg2 = pop(); arg1 = pop()
 
-LIBTINYCOMPILER_EXPORT void run(byte *code);
+LIBTINYCOMPILER_EXPORT void run(int *code);
 
 #endif

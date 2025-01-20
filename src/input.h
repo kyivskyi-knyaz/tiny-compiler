@@ -7,5 +7,4 @@
 LIBTINYCOMPILER_EXPORT void open_file(const char *filename);
 LIBTINYCOMPILER_EXPORT FILE* get_file();
 LIBTINYCOMPILER_EXPORT void close_file();
-
 #endif

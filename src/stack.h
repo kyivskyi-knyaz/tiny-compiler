@@ -4,7 +4,7 @@
 #include "libtinycompiler_export.h"
 #include "defs.h"
 
-struct Stack
+LIBTINYCOMPILER_STRUCT_EXTENSION(Stack)
 {
     int val;
     struct Stack *next;

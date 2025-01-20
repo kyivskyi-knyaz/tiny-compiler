@@ -6,7 +6,7 @@ struct Stack *head = NULL;
 
 void push(int val)
 {
-    struct Stack* item = malloc(sizeof(struct Stack));
+    struct Stack* item = malloc(sizeof(Stack));
     item->val = val;
     item->next = head;
     head = item;
@@ -16,9 +16,9 @@ int pop()
 {
     int val = head->val;
 
-    struct Stack *tmp = head;
+    //struct Stack *tmp = head;
     head = head->next;
-    free(tmp);
+    //free(tmp);
 
     return val;
 }

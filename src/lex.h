@@ -12,13 +12,14 @@
 #define RBR 6
 #define SEM 7
 #define EQ 8
+#define CMP 9
 
 #define MAX_LEN 20
 
-struct Token
+LIBTINYCOMPILER_STRUCT_EXTENSION(Token) // структура токена
 {
-    int type;
-    int attr;
+    int type; // тип
+    int attr; // аттрибут
 };
 
 LIBTINYCOMPILER_EXPORT struct Token lex();

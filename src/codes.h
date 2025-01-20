@@ -9,6 +9,7 @@
 #define SUB 5
 #define MUL 6
 #define DIV 7
-#define RET 8
+#define RET 8 // EQ // =
+#define CMP 9 // compare
 
 #endif

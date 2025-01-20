@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "defs.h"
 #include "input.h"
 #include "lex.h"
 #include "parser.h"
@@ -12,24 +11,25 @@
 #define MIN_ARGS 2
 #define SOURCE_ARG 1
 
-int main(int argc, char **argv)
+int main ( int argc, char **argv )
 {
-    byte *code;
-    if (argc < MIN_ARGS) {
-        fatal_error("No file provided! Usage: compiler <source>");
+    int *code;
+    if ( argc < MIN_ARGS ) // проверка на минимальное число аргументов
+    {
+        fatal_error ( "No file provided! Usage: compiler <source>" );
     }
 
-    open_file(argv[SOURCE_ARG]);
+    open_file ( argv[SOURCE_ARG] ); // открываем файл
 
-    code = compile(parse(lex()));
+    code = compile ( parse ( lex() ) );
 
     close_file();
 
-    puts("Generated ASM:");
-    print_asm(code);
+    puts ( "Generated ASM:" );
+    print_asm ( code );
 
-    puts("Execution result:");
-    run(code);
+    puts ( "Execution result:" );
+    run ( code );
 
     return EXIT_SUCCESS;
 }
