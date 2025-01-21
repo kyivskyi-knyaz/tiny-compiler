@@ -13,7 +13,7 @@
 #define SEM 7
 #define EQ 8
 #define CMP 9
-
+#define PRINTFF 10
 #define MAX_LEN 20
 
 LIBTINYCOMPILER_STRUCT_EXTENSION(Token) // структура токена
