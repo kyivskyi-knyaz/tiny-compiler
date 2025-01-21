@@ -44,6 +44,10 @@ void print_asm ( int *code )
                 cmp_opcode++;
                 break;
             }
+            case PRINTFF: {
+                puts("PRINTFF POP");
+                break;
+            }
         }
     }
     puts ( "RET" );
