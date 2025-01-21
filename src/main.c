@@ -7,7 +7,7 @@
 #include "vm.h"
 #include "asm.h"
 #include "func.h"
-
+#include "klibll/printff.c"
 #define MIN_ARGS 2
 #define SOURCE_ARG 1
 
