@@ -13,7 +13,6 @@ struct Token look_tok;
 int value;
 int value2;
 int cmp_table_index = 0;
-
 struct Token lex()
 {
     int ch;
@@ -27,7 +26,7 @@ struct Token lex()
     }
 
     eat:
-    switch (ch = fgetc(get_file())) { // посимвольно итерируемся по файлу
+    switch (ch = fgetc(get_file())) {
         case ' ': case '\n': goto eat;
         case EOF: tok.type = EOP; break;
         case '+': tok.type = OP1; tok.attr = ADD_TYPE; break;
@@ -38,6 +37,40 @@ struct Token lex()
         case ')': tok.type = RBR; break;
         case '=': tok.type = EQ; break;
         case ';': tok.type = SEM; break;
+        case 'p':
+        {
+            char buffer[8];
+            buffer[0] = ch;
+            buffer[1] = fgetc(get_file());
+            buffer[2] = fgetc(get_file());
+            buffer[3] = fgetc(get_file());
+            buffer[4] = fgetc(get_file());
+            buffer[5] = fgetc(get_file());
+            buffer[6] = fgetc(get_file());
+            buffer[7] = '\0';
+
+            if (strcmp(buffer, "printff") == 0)
+             //   printf("printff now\n");
+            tok.type = PRINTFF;
+            tok.attr = PRINTFF_FUNC;
+            fgetc(get_file()); // space after printff
+
+            ch = fgetc(get_file());
+            if (isalpha(ch)) {
+                char *idname = safe_malloc(MAX_LEN);
+                int len = 0;
+                idname[len++] = ch;
+                do {
+                    if (MAX_LEN == len)
+                        fatal_error("Lexer: Variable name is too long");
+                    idname[len++] = (ch = fgetc(get_file()));
+                } while (isalpha(ch) || isdigit(ch));
+                idname[len - 1] = '\0';
+
+                ungetc(ch, get_file());
+            }
+        }
+        break;
         case 'C':
         {
             char buffer[4];
@@ -56,27 +89,27 @@ struct Token lex()
 
                 if (isdigit(ch)) {
                     value = ch - '0';
-                    while (isdigit(ch = fgetc(get_file()))) // пока итерируемое есть число
-                        value = value * 10 + (ch - '0'); // получаем с строки число
+                    while (isdigit(ch = fgetc(get_file())))
+                        value = value * 10 + (ch - '0');
                 } else if (ch == ' ')
                     goto X;
                 /*else if (isalpha(ch)) {
-                 *                   char *id_name = safe_malloc(MAX_LEN); // выделяем память под название *var*
-                 *                   int len = 0; // длина
-                 *                   id_name[len++] = ch; // итерируемся и увеличиваем длину
+                 *                   char *id_name = safe_malloc(MAX_LEN);
+                 *                   int len = 0;
+                 *                   id_name[len++] = ch;
                  *                   do {
                  *                       if (MAX_LEN == len)
-                 *                           fatal_error("Lexer: Variable name is too long"); // ошибка если название переменной больше MAX_LEN (300 символов)
-                 *                       id_name[len++] = (ch = fgetc(get_file())); // записываем следующий символ в название и увеличиваем длину
-            } while (isalpha(ch) || isdigit(ch)); // пока это буква ИЛИ число
+                 *                           fatal_error("Lexer: Variable name is too long");
+                 *                       id_name[len++] = (ch = fgetc(get_file()));
+            } while (isalpha(ch) || isdigit(ch));
             }*/
                 Y:
                 ch = fgetc(get_file());
                 if (isdigit(ch)) {
                     value2 = ch - '0';
-                    while (isdigit(ch = fgetc(get_file()))) // пока итерируемое есть число
-                        value2 = value2 * 10 + (ch - '0'); // получаем с строки число
-                        set_cmp(get_cmp(cmp_table_index), value, value2);
+                    while (isdigit(ch = fgetc(get_file())))
+                        value2 = value2 * 10 + (ch - '0');
+                    set_cmp(get_cmp(cmp_table_index), value, value2);
                     cmp_table_index++;
                 } else if(ch == ' ') {
                     goto Y;
@@ -87,27 +120,26 @@ struct Token lex()
         }
         default:
             // ID
-            if (isalpha(ch)) { // смотрим является ли это символом
-                char *id_name = safe_malloc(MAX_LEN); // выделяем память под название *var*
-                int len = 0; // длина
-                id_name[len++] = ch; // итерируемся и увеличиваем длину
+            if (isalpha(ch)) {
+                char *id_name = safe_malloc(MAX_LEN);
+                int len = 0;
+                id_name[len++] = ch;
                 do {
                     if (MAX_LEN == len)
-                        fatal_error("Lexer: Variable name is too long"); // ошибка если название переменной больше MAX_LEN (300 символов)
-                        id_name[len++] = (ch = fgetc(get_file())); // записываем следующий символ в название и увеличиваем длину
-                } while (isalpha(ch) || isdigit(ch)); // пока это буква ИЛИ число
+                        fatal_error("Lexer: Variable name is too long");
+                    id_name[len++] = (ch = fgetc(get_file()));
+                } while (isalpha(ch) || isdigit(ch));
                 id_name[len - 1] = '\0';
 
-                tok.type = ID; // тип токена это ID
-                tok.attr = add_sym(id_name); //добавляем аттрибут
+                tok.type = ID;
+                tok.attr = add_sym(id_name);
 
                 // NUM
-            } else if (isdigit(ch)) { // смотрим является ли это числом
-                int val = ch - '0'; // значение = ch - '0' // 0 - 48
-                while (isdigit(ch = fgetc(get_file()))) // пока итерируемое есть число
-                    val = val * 10 + (ch - '0'); // получаем с строки число
-
-                    tok.type = NUM;
+            } else if (isdigit(ch)) {
+                int val = ch - '0';
+                while (isdigit(ch = fgetc(get_file())))
+                    val = val * 10 + (ch - '0');
+                tok.type = NUM;
                 tok.attr = val;
 
                 // Error
