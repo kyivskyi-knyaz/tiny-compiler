@@ -54,12 +54,17 @@ void run ( int *code )
             cmp_code++;
             goto next_op;
         }
+        case PRINTFF:
+        {
+            printf ( "%s = %i\n", get_sym ( 0 )->name, get_sym ( 0 )->val );
+            goto next_op;
+        }
         case RET:
         {
             int i;
             for ( i = 0; i < get_table_size(); i++ )
             {
-                printf ( "%s = %i\n", get_sym ( i )->name, get_sym ( i )->val );
+            //    printf ( "%s = %i\n", get_sym ( i )->name, get_sym ( i )->val );
             }
         }
 
