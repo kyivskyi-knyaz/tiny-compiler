@@ -13,6 +13,13 @@
 #define NUM_TYPE 7
 #define RET_TYPE 8
 #define CMP_TYPE 9
+
+// -------------------------------------- //
+
+// KLIBL (knayz LIB LANGUAGE) //
+
+#define PRINTFF_FUNC 10
+
 LIBTINYCOMPILER_STRUCT_EXTENSION(Node) {
     int type;
     int val;
