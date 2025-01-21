@@ -69,6 +69,11 @@ static struct Node *factor()
         node->type = CMP_TYPE;
         node->val = tok_attr;
     }
+    else if ( accept (PRINTFF) )
+    {
+        node->type = PRINTFF_FUNC;
+        node->val = tok_attr;
+    }
     else if ( accept ( NUM ) )
     {
         node->type = NUM_TYPE;
@@ -114,6 +119,12 @@ static struct Node *expr()
         node = safe_malloc ( sizeof ( struct Node ) );
         node->type = CMP_TYPE;
         //node->op1 = make_node(CMP_TYPE, 0, 0, tok_attr);
+        goto X;
+    }
+    if (accept ( PRINTFF ) )
+    {
+        node = safe_malloc( sizeof (struct Node) );
+        node->type = PRINTFF_FUNC;
         goto X;
     }
     if ( accept_two ( ID, EQ ) )
