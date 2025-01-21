@@ -59,6 +59,9 @@ int *compile ( const Node *node )
             COMPILE_BOTH;
             gen ( CMP );
             break;
+        case PRINTFF_FUNC:
+            gen ( PRINTFF );
+            break;
     }
 
     return obj;
