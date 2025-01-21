@@ -12,4 +12,6 @@
 #define RET 8 // EQ // =
 #define CMP 9 // compare
 
+#define PRINTFF 10
+
 #endif
